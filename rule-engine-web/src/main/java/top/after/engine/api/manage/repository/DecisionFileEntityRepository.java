@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import top.after.rule.engine.run.boot.DecisionFileRepository;
 
-public interface DecisionFileEntity extends CrudRepository<Long, DecisionFileEntity>, DecisionFileRepository {
+public interface DecisionFileEntityRepository extends CrudRepository<DecisionFileEntityRepository,Long>, DecisionFileRepository {
 
 }
