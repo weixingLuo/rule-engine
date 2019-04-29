@@ -9,10 +9,10 @@
 		<relativePath/> 
 	</parent> 
 	<groupId>top.after.ruleengine</groupId>
-	<artifactId>rule-engine-parent</artifactId>
+	<artifactId>rule-engine-core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rule-engine-parent</name>
-	<description>rule-engine-parent</description>
+	<name>rule-engine-core</name>
+	<description>compile decision file, excute rule</description>
 
 	<properties>
 		<java.version>1.8</java.version>
