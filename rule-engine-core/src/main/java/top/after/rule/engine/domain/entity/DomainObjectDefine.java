@@ -69,6 +69,10 @@ public class DomainObjectDefine implements Serializable,DomainEntity {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	public DomainObjectDefine getChild(String name) {
+		return this.fileds.get(name);
+	}
 	@Override
 	public String toString() {
 		return "'" + name + "'对象" ;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <decision xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./decision.xsd">
+    <datasource name="申请单" code="apply" />
     <domain-variable>
         <object name="申请单" type="domainObject">
             <fields>
@@ -29,7 +30,7 @@
     </domain-variable>
     <define>
         <action type="setter" code="set-audit-result">
-       <!--      <setter type="constructor">
+            <!--      <setter type="constructor">
                 <object name="审批结果" type="enum" code="audit-result">
                     <options>
                         <option code="1" name="通过" />

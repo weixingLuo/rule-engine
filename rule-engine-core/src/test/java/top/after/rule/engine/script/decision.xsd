@@ -3,6 +3,12 @@
     <xs:element name="decision">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="datasource">
+                    <xs:complexType>
+                        <xs:attribute name="name" type="xs:string"></xs:attribute>
+                        <xs:attribute name="code" type="xs:string"></xs:attribute>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element ref="domain-variable"></xs:element>
                 <xs:element ref="define" />
                 <xs:element ref="rule-set" />
@@ -33,25 +39,23 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    	<xs:element name="fields">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="field" minOccurs="0"
-					maxOccurs="unbounded"></xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-    	<xs:element name="field">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="options" minOccurs="0"
-					maxOccurs="unbounded"></xs:element>
-			</xs:sequence>
-			<xs:attribute name="name"></xs:attribute>
-			<xs:attribute name="type" use="optional"></xs:attribute>
-			<xs:attribute name="code" use="optional"></xs:attribute>
-		</xs:complexType>
-	</xs:element>
+    <xs:element name="fields">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="field" minOccurs="0" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="field">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="options" minOccurs="0" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+            <xs:attribute name="name"></xs:attribute>
+            <xs:attribute name="type" use="optional"></xs:attribute>
+            <xs:attribute name="code" use="optional"></xs:attribute>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="rule-set">
         <xs:complexType>
             <xs:sequence>
@@ -79,12 +83,12 @@
                         <xs:sequence>
                             <xs:element name="operator" type="operatorTypeModel" />
                             <xs:element ref="parameter" minOccurs="1" maxOccurs="1" />
-                            <xs:element ref="action" minOccurs="1" maxOccurs="1"/>
+                            <xs:element ref="action" minOccurs="1" maxOccurs="1" />
                         </xs:sequence>
                         <xs:attribute name="id" use="optional"></xs:attribute>
                     </xs:complexType>
                 </xs:element>
-                <xs:element ref="action" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="action" minOccurs="0" maxOccurs="1" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -139,7 +143,7 @@
             <xs:enumeration value="..." />
         </xs:restriction>
     </xs:simpleType>
-        <xs:simpleType name="actionTypeModel">
+    <xs:simpleType name="actionTypeModel">
         <xs:restriction base="xs:string">
             <xs:enumeration value="enum" />
             <xs:enumeration value="switch" />

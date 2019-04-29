@@ -37,7 +37,7 @@ class DecisionFileReader {
 	}
 
 	Decision buildDecision(){
-//		buildDataSource(rootElement.'datasource');
+		buildDataSource(rootElement.'datasource'[0]);
 		domainVariable = buildDomainVariable(rootElement.'domain-variable'[0]);
 		CompileContext.init(domainVariable);
 		buildDefine(rootElement.'define')
@@ -74,8 +74,8 @@ class DecisionFileReader {
 	}
 	
 	def buildDataSource(datasourceNode) {
-		mainDomainObjectName  = datasourceNode[0].'@name';
-		mainDomainObjectCode = datasourceNode[0].'@code';
+		mainDomainObjectName  = datasourceNode.'@name';
+		mainDomainObjectCode = datasourceNode.'@code';
 	}
 	def buildDomainVariable(domainNode){
 		

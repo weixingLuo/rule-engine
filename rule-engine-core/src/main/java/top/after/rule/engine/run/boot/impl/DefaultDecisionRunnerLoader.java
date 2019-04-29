@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.cache.annotation.Cacheable;
 
 import top.after.rule.engine.compile.DecisionFileReader;
+import top.after.rule.engine.domain.DomainObjectEnum;
 import top.after.rule.engine.domain.entity.Decision;
 import top.after.rule.engine.domain.entity.DomainObjectDefine;
 import top.after.rule.engine.run.boot.DecisionFile;
@@ -34,10 +35,14 @@ public class DefaultDecisionRunnerLoader implements DecisionRunnerLoader {
 		
 		Reader xml = new InputStreamReader(new ByteArrayInputStream(f.getContent().getBytes()));;
     	DecisionFileReader reader = new DecisionFileReader(xml);
+    	
 		Decision decision = reader.buildDecision();
-		DomainObjectDefine mainObjectDefine=null;
-		DomainObjectDefine addtionDetailsDefine=null;
-		DefaultDecisionRunner runner = new DefaultDecisionRunner(decision, mainObjectDefine, addtionDetailsDefine);
+		
+		String mainObjectName = reader.getDomainVariableName();
+		DomainObjectDefine root = reader.getDomainVariable();
+		DomainObjectDefine mainObjectDefine=root.getChild(mainObjectName);
+		DomainObjectDefine addtionDetailsDefine=root.getChild(DomainObjectEnum.审批详情.name());
+		DefaultDecisionRunner runner = new DefaultDecisionRunner(decision,mainObjectName, mainObjectDefine, addtionDetailsDefine);
 		return runner;
 	}
 

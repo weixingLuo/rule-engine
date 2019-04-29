@@ -21,22 +21,25 @@ public class DefaultDecisionRunner implements DecisionRunner {
 	private static final long serialVersionUID = -6386611833929165387L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultDecisionRunner.class);
 	private Decision decision;
+	private String mainObjectName;
 	private DomainVaribleConverter mainObjectConverter;
 	private DomainVaribleConverter addtionDetailsConverter;
 
 	public DefaultDecisionRunner(Decision decision, 
+			String mainObjectName,
 			DomainObjectDefine mainObjectDefine,
 			DomainObjectDefine addtionDetailsDefine) {
 		this.decision = decision;
+		this.mainObjectName = mainObjectName;
 		this.mainObjectConverter = new DefaultDomainVaribleConverter(mainObjectDefine);
-		this.addtionDetailsConverter = new DefaultDomainVaribleConverter(addtionDetailsDefine);
+		this.addtionDetailsConverter =addtionDetailsDefine==null?null: new DefaultDomainVaribleConverter(addtionDetailsDefine);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public DecisionResult excute(Object object) {
 		DecisionContext context=new DecisionContext();
-		context.setMainObjectName(DomainObjectEnum.申请单.name());
+		context.setMainObjectName(mainObjectName);
 		AttributeKeeper mainObject = mainObjectConverter.toDomain(object);
 		context.setMainObject(mainObject);
 		
