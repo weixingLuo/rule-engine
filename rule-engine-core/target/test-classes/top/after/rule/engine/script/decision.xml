@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<decision xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./decision.xsd">
+    <domain-variable>
+        <object name="申请单" type="domainObject">
+            <fields>
+                <field name="申请人内部黑名单" type="string" code="innder_black" />
+                <field name="申请人年龄" type="number" code="age" />
+                <field name="工作单位" type="number" code="comany" />
+                <field name="IP地址所在城市与工作所在城市" type="enum" code="same_ip_address">
+                    <options>
+                        <option code="1" name="一致" />
+                        <option code="2" name="不一致" />
+                    </options>
+                </field>
+                <field name="GPS城市与工作城市一致" type="string" code="same_gps_address" />
+            </fields>
+        </object>
+        <object name="审批详情" type="domainObject">
+            <fields>
+                <field name="审批结果" type="enum" code="audit-result">
+                    <options>
+                        <option code="1" name="通过" />
+                        <option code="2" name="转人工" />
+                        <option code="3" name="拒绝" />
+                    </options>
+                </field>
+            </fields>
+        </object>
+    </domain-variable>
+    <define>
+        <action type="setter" code="set-audit-result">
+       <!--      <setter type="constructor">
+                <object name="审批结果" type="enum" code="audit-result">
+                    <options>
+                        <option code="1" name="通过" />
+                        <option code="2" name="转人工" />
+                        <option code="3" name="拒绝" />
+                    </options>
+                </object> 
+            </setter>-->
+        </action>
+    </define>
+    <rule-set domain="申请单">
+        <rule type="switch" name="申请人内部黑名单">
+            <switch>
+                <parameter name-type="variable" value-type="string">申请人内部黑名单</parameter>
+                <case>
+                    <operator>等于</operator>
+                    <parameter name-type="enum" value-type="string">
+                        <options selected="2">
+                            <option name="是" code="1" />
+                            <option name="否" code="2" />
+                        </options>
+                    </parameter>
+                    <action type="enum" ref="set-audit-result" with-param="1" />
+                </case>
+                <case>
+                    <operator>等于</operator>
+                    <parameter name-type="enum" value-type="string">
+                        <options selected="1">
+                            <option name="是" code="1" />
+                            <option name="否" code="2" />
+                        </options>
+                    </parameter>
+                    <action type="enum" ref="set-audit-result" with-param="3" />
+                </case>
+                <action type="enum" ref="set-audit-result" with-param="1" />
+            </switch>
+        </rule>
+        <rule type="switch" name="申请人年龄">
+            <switch>
+                <parameter name-type="variable" value-type="number">申请人年龄</parameter>
+                <case>
+                    <operator>小于</operator>
+                    <parameter name-type="enum" value-type="number">18</parameter>
+                    <action type="enum" ref="set-audit-result" with-param="3" />
+                </case>
+                <case>
+                    <operator>大于</operator>
+                    <parameter name-type="enum" value-type="number">18</parameter>
+                    <action type="enum" ref="set-audit-result" with-param="3" />
+                </case>
+                <action type="enum" ref="set-audit-result" with-param="1" />
+            </switch>
+        </rule>
+        <rule type="switch" name="工作单位">
+            <switch>
+                <parameter name-type="variable" value-type="number">工作单位</parameter>
+                <case>
+                    <operator>包含列表中词汇</operator>
+                    <parameter value-type="list" name-type="input">金融信息,平安普惠,信和财富</parameter>
+                    <action type="enum" ref="set-audit-result" with-param="3" />
+                </case>
+                <action type="enum" ref="set-audit-result" with-param="1" />
+            </switch>
+        </rule>
+        <rule type="switch" name="IP城市与工作城市一致">
+            <switch>
+                <parameter name-type="variable" value-type="string">IP地址所在城市与工作所在城市</parameter>
+                <case id="3">
+                    <operator>等于</operator>
+                    <parameter name-type="enum" value-type="string">
+                        <options selected="1">
+                            <option name="是" code="1" />
+                            <option name="否" code="2" />
+                        </options>
+                    </parameter>
+                    <action type="enum" ref="set-audit-result" with-param="1" />
+                </case>
+                <case id="4">
+                    <operator>等于</operator>
+                    <parameter name-type="enum" value-type="string">
+                        <options selected="2">
+                            <option name="是" code="1" />
+                            <option name="否" code="2" />
+                        </options>
+                    </parameter>
+                    <action type="switch">
+                        <switch>
+                            <parameter name-type="variable" value-type="string">GPS城市与工作城市一致</parameter>
+                            <case>
+                                <operator>等于</operator>
+                                <parameter name-type="enum" value-type="string">
+                                    <options selected="1">
+                                        <option name="是" code="1" />
+                                        <option name="否" code="2" />
+                                    </options>
+                                </parameter>
+                                <action type="enum" ref="set-audit-result" with-param="1" />
+                            </case>
+                            <action type="enum" ref="set-audit-result" with-param="3" />
+                        </switch>
+                    </action>
+                </case>
+                <action type="enum" ref="set-audit-result" with-param="1" />
+            </switch>
+        </rule>
+    </rule-set>
+</decision>
