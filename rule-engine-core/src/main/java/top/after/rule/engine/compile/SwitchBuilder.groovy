@@ -44,6 +44,9 @@ class SwitchBuilder {
 		
 		def op = OperationBuilderEnum.getOperation('boolean', operator)
 		op.setBefore(before)
+		if(caseNode.parameter[0] == null){
+			throw new CompileException("caseNode must define paramter:"+caseNode);
+		}
 		def after = operationBuilder.buildParamter(caseNode.parameter[0]);
 		op.setAfter(after);
 		
