@@ -72,6 +72,9 @@ public enum BiPredicateOperator {
 	}
 
 	public static BigDecimal bigDecimalConvert(Object obj) {
+		if(obj == null){
+		   return null;
+		}
 		BigDecimal value = null;
 		if (obj instanceof BigDecimal) {
 			value = (BigDecimal) obj;
