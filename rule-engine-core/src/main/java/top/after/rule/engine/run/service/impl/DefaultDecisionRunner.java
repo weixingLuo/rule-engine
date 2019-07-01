@@ -51,7 +51,9 @@ public class DefaultDecisionRunner implements DecisionRunner {
 		Map<String,Object> map = (Map<String,Object>)context.get(DomainObjectEnum.规则明细.name());
 		dr.setRuleResult(map);
 		AttributeKeeper addtionDetails = (AttributeKeeper)context.get(DomainObjectEnum.审批详情.name());
-		dr.setAddtionDetails(addtionDetailsConverter.fromDomain(addtionDetails));
+		if(addtionDetails!=null && !addtionDetails.isEmpty()){
+			dr.setAddtionDetails(addtionDetailsConverter.fromDomain(addtionDetails));
+		}
 		return dr;
 	}
 }
